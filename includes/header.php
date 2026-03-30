@@ -19,6 +19,7 @@ require_once __DIR__ . '/functions.php';
 
                 <?php if (isLoggedIn()): ?>
                     <a href="dashboard.php">Dashboard</a>
+                    <a href="search.php">Search</a>
 
                     <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
                         <a href="admin.php">Admin</a>

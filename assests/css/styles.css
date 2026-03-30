@@ -115,3 +115,24 @@ ul {
     background: #fee2e2;
     color: #991b1b;
 }
+
+.user-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+}
+
+.user-table th,
+.user-table td {
+    border: 1px solid #d1d5db;
+    padding: 0.75rem;
+    text-align: left;
+}
+
+.user-table th {
+    background: #e5e7eb;
+}
+
+.user-table tr:nth-child(even) {
+    background: #f9fafb;
+}
