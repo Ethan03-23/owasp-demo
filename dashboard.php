@@ -12,10 +12,17 @@ require_once 'includes/header.php';
 </section>
 
 <section class="card">
-    <h2>Project Progress</h2>
+    <h2>Week 3 Vulnerability Modules</h2>
+    <p>This week focuses on Broken Access Control and Injection.</p>
+
+    <ul>
+        <li><a href="admin_weak.php">Broken Access Control Demo</a></li>
+        <li><a href="search.php">Injection Demo</a></li>
+    </ul>
+
     <p>
-        This dashboard is part of the base application structure created in Week 2.
-        Later weeks will use this application to demonstrate selected OWASP vulnerabilities.
+        The secure admin page is still available only to admins through <strong>admin.php</strong>,
+        while <strong>admin_weak.php</strong> is the intentionally vulnerable version.
     </p>
 </section>
 
