@@ -6,16 +6,18 @@ requireLogin();
 $results = [];
 $error = '';
 $queryText = '';
-$sqlPreview = '';
 
 if (isset($_GET['q'])) {
     $queryText = trim($_GET['q']);
 
     if ($queryText !== '') {
-        $sqlPreview = "SELECT id, username, email, role FROM users WHERE username LIKE '%$queryText%' OR email LIKE '%$queryText%'";
+        // Intentionally vulnerable SQL query for demonstration purposes
+        $sql = "SELECT id, username, email, role FROM users 
+                WHERE username = '$queryText' 
+                OR email = '$queryText'";
 
         try {
-            $stmt = $pdo->query($sqlPreview);
+            $stmt = $pdo->query($sql);
             $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
             $error = $e->getMessage();
@@ -42,17 +44,10 @@ require_once 'includes/header.php';
     <h2>Search Users</h2>
 
     <form method="GET" action="search.php" class="form">
-        <label for="q">Search by username or email</label>
+        <label for="q">Enter username or email</label>
         <input type="text" id="q" name="q" value="<?php echo e($queryText); ?>">
-        <button type="submit">Search</button>
+        <button type="submit">Run Query</button>
     </form>
-
-    <?php if ($sqlPreview): ?>
-        <div class="message">
-            <strong>Executed SQL:</strong><br>
-            <?php echo e($sqlPreview); ?>
-        </div>
-    <?php endif; ?>
 
     <?php if ($error): ?>
         <div class="message error">
@@ -64,7 +59,7 @@ require_once 'includes/header.php';
 
 <?php if (isset($_GET['q']) && !$error): ?>
     <section class="card">
-        <h2>Search Results</h2>
+        <h2>Query Results</h2>
 
         <?php if (!empty($results)): ?>
             <table class="user-table">
