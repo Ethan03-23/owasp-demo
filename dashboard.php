@@ -13,7 +13,9 @@ require_once 'includes/header.php';
 
 <section class="card">
     <h2>Week 3 Vulnerability Modules</h2>
-    <p>This week focuses on Broken Access Control and Injection.</p>
+    <p>
+        This week focuses on Broken Access Control and Injection.
+    </p>
 
     <ul>
         <li><a href="admin_weak.php">Broken Access Control Demo</a></li>

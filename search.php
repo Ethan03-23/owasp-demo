@@ -6,18 +6,16 @@ requireLogin();
 $results = [];
 $error = '';
 $queryText = '';
+$sqlPreview = '';
 
 if (isset($_GET['q'])) {
     $queryText = trim($_GET['q']);
 
     if ($queryText !== '') {
-        // Intentionally vulnerable SQL query for demonstration purposes
-        $sql = "SELECT id, username, email, role FROM users 
-                WHERE username = '$queryText' 
-                OR email = '$queryText'";
+        $sqlPreview = "SELECT id, username, email, role FROM users WHERE username LIKE '%$queryText%' OR email LIKE '%$queryText%'";
 
         try {
-            $stmt = $pdo->query($sql);
+            $stmt = $pdo->query($sqlPreview);
             $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
             $error = $e->getMessage();
@@ -29,14 +27,10 @@ require_once 'includes/header.php';
 ?>
 
 <section class="card">
-    <h1>SQL Injection Demo</h1>
+    <h1>Vulnerable Search Page</h1>
     <p>
         This page is intentionally vulnerable to SQL Injection.
-        The search value is inserted directly into the SQL query without prepared statements or parameter binding.
-    </p>
-    <p>
-        Example normal input: <strong>admin@example.com</strong><br>
-        Example SQL Injection payload: <strong>' OR '1'='1</strong>
+        The search input is inserted directly into the SQL query without parameter binding.
     </p>
 </section>
 
@@ -44,10 +38,17 @@ require_once 'includes/header.php';
     <h2>Search Users</h2>
 
     <form method="GET" action="search.php" class="form">
-        <label for="q">Enter username or email</label>
+        <label for="q">Search by username or email</label>
         <input type="text" id="q" name="q" value="<?php echo e($queryText); ?>">
-        <button type="submit">Run Query</button>
+        <button type="submit">Search</button>
     </form>
+
+    <?php if ($sqlPreview): ?>
+        <div class="message">
+            <strong>Executed SQL:</strong><br>
+            <?php echo e($sqlPreview); ?>
+        </div>
+    <?php endif; ?>
 
     <?php if ($error): ?>
         <div class="message error">
@@ -57,34 +58,30 @@ require_once 'includes/header.php';
     <?php endif; ?>
 </section>
 
-<?php if (isset($_GET['q']) && !$error): ?>
+<?php if (!empty($results)): ?>
     <section class="card">
-        <h2>Query Results</h2>
+        <h2>Search Results</h2>
 
-        <?php if (!empty($results)): ?>
-            <table class="user-table">
-                <thead>
+        <table class="user-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($results as $row): ?>
                     <tr>
-                        <th>ID</th>
-                        <th>Username</th>
-                        <th>Email</th>
-                        <th>Role</th>
+                        <td><?php echo e((string)$row['id']); ?></td>
+                        <td><?php echo e($row['username']); ?></td>
+                        <td><?php echo e($row['email']); ?></td>
+                        <td><?php echo e($row['role']); ?></td>
                     </tr>
-                </thead>
-                <tbody>
-                    <?php foreach ($results as $row): ?>
-                        <tr>
-                            <td><?php echo e((string)$row['id']); ?></td>
-                            <td><?php echo e($row['username']); ?></td>
-                            <td><?php echo e($row['email']); ?></td>
-                            <td><?php echo e($row['role']); ?></td>
-                        </tr>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
-        <?php else: ?>
-            <p>No matching users found.</p>
-        <?php endif; ?>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
     </section>
 <?php endif; ?>
 
