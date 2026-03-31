@@ -11,10 +11,10 @@ require_once 'includes/header.php';
 </section>
 
 <section class="card">
-    <h2>Why this page matters</h2>
+    <h2>Secure Baseline</h2>
     <p>
-        This admin page is part of the Week 2 role-based structure.
-        In later weeks, it can be used as the basis for Broken Access Control demonstrations.
+        This page represents the secure admin-only version. It requires the user
+        to have the admin role before access is granted.
     </p>
 </section>
 

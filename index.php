@@ -19,16 +19,16 @@ require_once 'includes/header.php';
     </ul>
 
     <p>
-        By the end of Week 2, this application provides the basic structure,
-        authentication system, and user/admin roles needed for later vulnerability modules.
+        The current project contains a working authentication system, role-based structure,
+        and the first vulnerable modules for Broken Access Control and SQL Injection.
     </p>
 </section>
 
 <section class="card">
     <h2>Current Status</h2>
     <p>
-        Week 1 and Week 2 focus on planning, setup, authentication, database design,
-        and the basic page structure.
+        The application now includes the secure baseline pages as well as the first
+        vulnerable modules used for security demonstration and testing.
     </p>
 </section>
 
